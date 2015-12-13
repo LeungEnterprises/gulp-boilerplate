@@ -11,7 +11,9 @@ Boilerplate for making a static site using Gulp.
 `gulp dev`
 
 ## Deploy
-Edit your details in the `deploy.sh` script.
+Edit your details in the `deploy.sh` script and then active the repository on Travis.
+
+Script based on https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
 ## Examples
 * https://bistro.nathanhleung.com/

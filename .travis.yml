@@ -1,0 +1,7 @@
+script: bash ./deploy.sh
+env:
+  global:
+  - GH_REF: github.com/LeungEnterprises/gulp-boilerplate.git
+language: node_js
+node_js:
+  - "4.1"
