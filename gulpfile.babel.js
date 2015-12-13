@@ -8,8 +8,9 @@ import flatten from 'gulp-flatten';
 
 import imagemin from 'gulp-imagemin';
 
-import usemin from 'gulp-usemin';
+import useref from 'gulp-useref';
 import gulpif from 'gulp-if';
+import lazypipe from 'lazypipe';
 
 import autoprefixer from 'gulp-autoprefixer';
 import minifyCss from 'gulp-minify-css';
@@ -50,7 +51,7 @@ gulp.task('copy-img', () => {
 });
 
 // Copies all fonts into the `build/fonts` directory
-gulp.task('copy-fonts', () => {
+gulp.task('flatten-fonts', () => {
   return gulp.src(['./src/vendor/**/*.{eot,svg,ttf,woff,woff2}', '!./src/vendor/Ionicons/src/*'])
     .pipe(flatten())
     .pipe(gulp.dest('./build/fonts'));
@@ -62,7 +63,7 @@ gulp.task('copy-vendor', () => {
     .pipe(gulp.dest('./build/vendor'));
 });
 
-gulp.task('build', ['jade', 'stylus', 'babel', 'copy-img', 'copy-fonts', 'copy-vendor'], () => {
+gulp.task('build', ['jade', 'stylus', 'babel', 'copy-img', 'flatten-fonts', 'copy-vendor'], () => {
 });
 
 gulp.task('dev', ['build'], () => {
@@ -71,10 +72,11 @@ gulp.task('dev', ['build'], () => {
   gulp.watch('./src/js/*.js', ['babel']);
 
   gulp.watch('./src/img/**/*', ['copy-img']);
-  gulp.watch('./src/vendor/**/*', ['fonts', 'copy-fonts', 'copy-vendor']);
+  gulp.watch('./src/vendor/**/*', ['flatten-fonts', 'copy-vendor']);
 
   console.log("Watching files!");
 });
+
 
 /**
  * Produce Tasks:
@@ -94,19 +96,27 @@ gulp.task('copy-fonts', () => {
     .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('copy-vendor', () => {
-  return gulp.src('./build/vendor/**/*')
-    .pipe(gulp.dest('./dist/vendor'));
-})
+// Copy the js files that won't be useref'd
+gulp.task('copy-custom-vendor', () => {
+  return gulp.src('./src/vendor/slick-carousel/**/*')
+    .pipe(gulp.dest('./dist/vendor/slick-carousel'));
+});
 
-gulp.task('usemin', () => {
+
+gulp.task('useref', () => {
+  let cssTasks = lazypipe()
+    .pipe(autoprefixer, { cascade: false })
+    .pipe(minifyCss, { keepSpecialComments: 0 });
+
+  let jsTasks = lazypipe()
+    .pipe(uglify);
+
   return gulp.src('./build/**/*.html')
-    .pipe(usemin({
-      css: [ autoprefixer({ cascade: false }), minifyCss({ keepSpecialComments: 0 }) ],
-      js: [ uglify() ]
-    }))
+    .pipe(useref())
+      .pipe(gulpif('*.css', cssTasks()))
+      .pipe(gulpif('*.js', jsTasks()))
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('produce', ['imagemin', 'copy-fonts', 'copy-vendor', 'usemin'], () => {
+gulp.task('produce', ['imagemin', 'copy-fonts', 'copy-custom-vendor', 'useref'], () => {
 });
