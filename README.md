@@ -1,4 +1,4 @@
-# Gulp Boilerplate
+# Gulp Boilerplate [![Build Status](https://travis-ci.org/LeungEnterprises/gulp-boilerplate.svg?branch=master)](https://travis-ci.org/LeungEnterprises/gulp-boilerplate)
 Boilerplate for making a static site using Gulp.
 
 ## Instructions
