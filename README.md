@@ -10,6 +10,9 @@ Boilerplate for making a static site using Gulp.
 
 `gulp dev`
 
+## Deploy
+Edit your details in the `deploy.sh` script.
+
 ## Examples
 * https://bistro.nathanhleung.com/
 
