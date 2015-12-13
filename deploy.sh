@@ -14,6 +14,7 @@ cd dist
 git init
 
 git config user.name "Travis CI"
+# change this to your email
 git config user.email "hello@leungenterprises.com"
 
 git add .
