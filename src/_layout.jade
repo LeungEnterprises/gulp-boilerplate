@@ -1,20 +1,24 @@
+block config
+
 doctype html
 html(lang='en')
   head
-    title Gulp Boilerplate
+    title #{title}
+    meta(name='description' content=description)
     meta(name='viewport' content='width=device-width,initial-scale=1.0')
     // build:css ./css/combined.css
     link(rel='stylesheet' href='./vendor/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet' href='./css/index.css')
     // endbuild
   body
-    .container
-      .jumbotron
-        h1 Gulp Boilerplate
-        p A boilerplate for starting web projects with Gulp.
-        a.btn.btn-primary.btn-lg(href='https://github.com/LeungEnterprises/gulp-boilerplate') View on GitHub
+    block content
+
     // build:js ./js/combined.js
     script(src='./vendor/bootstrap/dist/js/bootstrap.min.js')
     script(src='./vendor/jquery/dist/jquery.min.js')
     script(src='./js/scripts.js')
     // endbuild
+
+    // build:remove 
+    script(src="/js/localhost.js")
+    // endbuild 
