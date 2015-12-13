@@ -8,7 +8,7 @@ Boilerplate for making a static site using Gulp.
 
 `npm install && bower install`
 
-`gulp build`
+`gulp dev`
 
 ## Examples
 * https://bistro.nathanhleung.com/

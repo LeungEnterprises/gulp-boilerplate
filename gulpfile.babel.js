@@ -63,6 +63,9 @@ gulp.task('copy-vendor', () => {
 });
 
 gulp.task('build', ['jade', 'stylus', 'babel', 'copy-img', 'copy-fonts', 'copy-vendor'], () => {
+});
+
+gulp.task('dev', ['build'], () => {
   gulp.watch('./src/**/*.jade', ['jade']);
   gulp.watch('./src/css/*.styl', ['stylus']);
   gulp.watch('./src/js/*.js', ['babel']);
@@ -98,7 +101,6 @@ gulp.task('copy-vendor', () => {
 
 gulp.task('usemin', () => {
   return gulp.src('./build/**/*.html')
-    .pipe(minifyInline()) // Inline minify adds quotes, so we put it first
     .pipe(usemin({
       css: [ autoprefixer({ cascade: false }), minifyCss({ keepSpecialComments: 0 }) ],
       js: [ uglify() ]
