@@ -2,11 +2,13 @@
 
 set -e # Immediately exit on fail
 
-rm -rf build || exit 0 # exit if this fails
-rm -rf dist || exit 0 # exit if this fails
+bower install || exit 1
 
-gulp build || exit 0
-gulp produce || exit 0
+rm -rf build || exit 1 # exit if this fails
+rm -rf dist || exit 1 # exit if this fails
+
+gulp build || exit 1
+gulp produce || exit 1
 
 cd dist
 git init
@@ -17,7 +19,10 @@ git config user.email "hello@leungenterprises.com"
 git add .
 git commit -m "Github Pages Deploy"
 
-# This assumes you've already registered SSH keys with GitHub
-git remote add origin git@github.com:LeungEnterprises/gulp-boilerplate.git # Change this to your data
+# Force push from the current repo's master branch to the remote
+# repo's gh-pages branch. (All previous history on the gh-pages branch
+# will be lost, since we are overwriting it.) We redirect any output to
+# /dev/null to hide any sensitive credential data that might otherwise be exposed.
+git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1\
 
-git push --force --quiet origin master:gh-pages
+# Based on https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
