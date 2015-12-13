@@ -41,7 +41,9 @@ gulp.task('stylus', () => {
 gulp.task('babel', () => {
   return gulp.src('./src/js/*.js')
     .pipe(plumber())
-    .pipe(babel())
+    .pipe(babel({
+      presets: ["es2015"]
+    }))
     .pipe(gulp.dest('./build/js'));
 });
 
@@ -98,10 +100,11 @@ gulp.task('copy-fonts', () => {
 
 // Copy the js files that won't be useref'd
 gulp.task('copy-custom-vendor', () => {
-  return gulp.src('./src/vendor/slick-carousel/**/*')
-    .pipe(gulp.dest('./dist/vendor/slick-carousel'));
+  /*
+  return gulp.src('./src/vendor/path/to/file')
+    .pipe(gulp.dest('./dist/vendor/path/to/file'));
+  */
 });
-
 
 gulp.task('useref', () => {
   let cssTasks = lazypipe()
