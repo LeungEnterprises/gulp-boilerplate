@@ -18,7 +18,7 @@ Install the Travis CLI (`gem install travis`) and then [encrypt](https://docs.tr
 Script based on https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
 ## Examples
-* https://bistro.nathanhleung.com/
+* https://www.leungnenterprises.com/
 
 ## License
 MIT
