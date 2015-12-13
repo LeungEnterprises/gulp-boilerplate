@@ -1,0 +1,24 @@
+{
+  "name": "gulp-boilerplate",
+  "description": "Gulp Boilerplate",
+  "main": "",
+  "authors": [
+    "Leung Enterprises"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/LeungEnterprises/gulp-boilerplate.git",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0"
+  }
+}
