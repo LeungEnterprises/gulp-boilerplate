@@ -13,7 +13,7 @@ import gulpif from 'gulp-if';
 import lazypipe from 'lazypipe';
 
 import autoprefixer from 'gulp-autoprefixer';
-import minifyCss from 'gulp-minify-css';
+import cssnano from 'gulp-cssnano';
 import uglify from 'gulp-uglify';
 
 /**
@@ -109,7 +109,7 @@ gulp.task('copy-custom-vendor', () => {
 gulp.task('useref', () => {
   let cssTasks = lazypipe()
     .pipe(autoprefixer, { cascade: false })
-    .pipe(minifyCss, { keepSpecialComments: 0 });
+    .pipe(cssnano, { discardComments: {removeAll: true} });
 
   let jsTasks = lazypipe()
     .pipe(uglify);
