@@ -6,9 +6,15 @@ Boilerplate for making a static site using Gulp.
 
 `cd gulp-boilerplate`
 
-`npm install && bower install`
+`npm install`
 
-`gulp dev`
+`npm run bower:install`
+
+`npm run gulp:dev`
+
+`npm run gulp:build`
+
+`npm run gulp:produce`
 
 ## Deploy
 Edit your details in the `deploy.sh` (`git config` etc.) script and then activate the repository on Travis.
