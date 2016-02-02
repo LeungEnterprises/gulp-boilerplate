@@ -13,7 +13,7 @@
     }
     // Checks if the link isn't a hash and the link isn't root
     // Also checks if the link isn't an index page of a subdirectory
-    if (link.charAt(0) === '/' && link != '/' && link.charAt(link.length - 1) != '/') {
+    if ((link.charAt(0) === '/' || link.charAt(0) === '.') && link != '/' && link.charAt(link.length - 1) != '/') {
       let hash = '';
       
       e.preventDefault();
