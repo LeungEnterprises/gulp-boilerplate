@@ -1,6 +1,8 @@
 # Gulp Boilerplate [![Build Status](https://travis-ci.org/LeungEnterprises/gulp-boilerplate.svg?branch=master)](https://travis-ci.org/LeungEnterprises/gulp-boilerplate)
 Boilerplate for making a static site using Gulp.
 
+No global deps required! (except for npm of course)
+
 ## Instructions
 `git clone https://github.com/LeungEnterprises/gulp-boilerplate`
 
@@ -9,6 +11,8 @@ Boilerplate for making a static site using Gulp.
 `npm install`
 
 `npm run bower:install`
+
+`npm run bower:install -- wow --save`
 
 `npm run gulp:dev`
 
