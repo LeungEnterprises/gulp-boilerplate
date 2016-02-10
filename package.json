@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "bower install",
     "start": "gulp dev",
-    "server": "cd build && python -m SimpleHTTPServer 3000"
+    "server": "cd build && python -m SimpleHTTPServer 3000",
     "gulp:build": "gulp build",
     "gulp:dev": "gulp dev",
     "gulp:produce": "gulp produce",
