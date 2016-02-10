@@ -10,15 +10,15 @@ No global deps required! (except for npm of course)
 
 `npm install`
 
-`npm run bower:install`
+`npm run postinstall` // Installs bower components
 
-`npm run bower:install -- wow --save`
+`npm start` // Starts gulp task which compiles and watches files
 
-`npm run gulp:dev`
+`npm run server` // Starts python SimpleHTTPServer in build/ directory, listening on port 3000
 
-`npm run gulp:build`
+`npm run gulp:produce` // Minifies, concatenates, etc.
 
-`npm run gulp:produce`
+`npm run bower:install -- bower-package --save` // if you want to install another package via bower
 
 ## Deploy
 Edit your details in the `deploy.sh` (`git config` etc.) script and then activate the repository on Travis.
