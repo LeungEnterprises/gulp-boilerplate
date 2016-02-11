@@ -35,6 +35,7 @@ gulp.task('stylus', () => {
   return gulp.src('./src/css/index.styl')
     .pipe(plumber())
     .pipe(stylus())
+    .pipe(autoprefixer({ cascade: false }))
     .pipe(gulp.dest('./build/css'));
 });
 
@@ -108,7 +109,6 @@ gulp.task('copy-custom-vendor', () => {
 
 gulp.task('useref', () => {
   let cssTasks = lazypipe()
-    .pipe(autoprefixer, { cascade: false })
     .pipe(cssnano, { discardComments: {removeAll: true} });
 
   let jsTasks = lazypipe()
