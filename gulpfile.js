@@ -1,20 +1,44 @@
-import gulp from 'gulp';
-import plumber from 'gulp-plumber';
+const gulp = require('gulp');
+const path = require('path');
+const plumber = require('gulp-plumber');
 
-import jade from 'gulp-jade';
-import stylus from 'gulp-stylus';
-import babel from 'gulp-babel';
-import flatten from 'gulp-flatten';
+const jade = require('gulp-jade');
+const stylus = require('gulp-stylus');
+const babel = require('gulp-babel');
+const flatten = require('gulp-flatten');
 
-import imagemin from 'gulp-imagemin';
+const imagemin = require('gulp-imagemin');
 
-import useref from 'gulp-useref';
-import gulpif from 'gulp-if';
-import lazypipe from 'lazypipe';
+const useref = require('gulp-useref');
+const gulpif = require('gulp-if');
+const lazypipe = require('lazypipe');
 
-import autoprefixer from 'gulp-autoprefixer';
-import cssnano from 'gulp-cssnano';
-import uglify from 'gulp-uglify';
+const autoprefixer = require('gulp-autoprefixer');
+const cssnano = require('gulp-cssnano');
+const uglify = require('gulp-uglify');
+
+const paths = {
+  js: {
+    watch: ['./src/js/**/*.js'],
+    compile: ['./src/js/**/*.js'],
+  },
+  styl: {
+    watch: ['./src/styl/**/*.styl'],
+    compile: ['./src/styl/**/*.styl', '!./src/styl/utility.styl'],
+  },
+  jade: {
+    watch: ['./src/**/*.jade'],
+    compile: ['./src/**/*.jade', '!./src/_layout.jade', '!./src/_partials/**/*.jade'],
+  },
+  img: {
+    watch: ['./src/img/**/*'],
+    compile: ['./src/img/**/*'],
+  },
+  vendor: {
+    watch: ['./src/vendor/**/*'],
+    compile: ['./src/vendor/**/*'],
+  },
+};
 
 /**
  * Build Tasks:
@@ -22,17 +46,17 @@ import uglify from 'gulp-uglify';
  */
 
 gulp.task('jade', () => {
-  return gulp.src(['./src/**/*.jade', '!./src/_partials/*.jade', '!./src/_layout.jade'])
+  return gulp.src(paths.jade.compile)
     .pipe(plumber())
     .pipe(jade({
-      basedir: './src',
+      basedir: path.join(__dirname, 'src'),
       pretty: true
     }))
     .pipe(gulp.dest('./build'));
 })
 
 gulp.task('stylus', () => {
-  return gulp.src('./src/css/index.styl')
+  return gulp.src(paths.styl.compile)
     .pipe(plumber())
     .pipe(stylus())
     .pipe(autoprefixer({ cascade: false }))
@@ -40,16 +64,14 @@ gulp.task('stylus', () => {
 });
 
 gulp.task('babel', () => {
-  return gulp.src('./src/js/*.js')
+  return gulp.src(paths.js.compile)
     .pipe(plumber())
-    .pipe(babel({
-      presets: ["es2015"]
-    }))
+    .pipe(babel())
     .pipe(gulp.dest('./build/js'));
 });
 
 gulp.task('copy-img', () => {
-  return gulp.src('./src/img/**/*')
+  return gulp.src(paths.img.compile)
     .pipe(gulp.dest('./build/img'));
 });
 
@@ -62,20 +84,20 @@ gulp.task('flatten-fonts', () => {
 
 // Copies the `vendor` directory into the `build` directory
 gulp.task('copy-vendor', () => {
-  return gulp.src('./src/vendor/**/*')
+  return gulp.src(paths.vendor.compile)
     .pipe(gulp.dest('./build/vendor'));
 });
 
 gulp.task('build', ['jade', 'stylus', 'babel', 'copy-img', 'flatten-fonts', 'copy-vendor'], () => {
 });
 
-gulp.task('dev', ['build'], () => {
-  gulp.watch('./src/**/*.jade', ['jade']);
-  gulp.watch('./src/css/*.styl', ['stylus']);
-  gulp.watch('./src/js/*.js', ['babel']);
+gulp.task('watch', ['build'], () => {
+  gulp.watch(paths.jade.watch, ['jade']);
+  gulp.watch(paths.styl.watch, ['stylus']);
+  gulp.watch(paths.js.watch, ['babel']);
 
-  gulp.watch('./src/img/**/*', ['copy-img']);
-  gulp.watch('./src/vendor/**/*', ['flatten-fonts', 'copy-vendor']);
+  gulp.watch(paths.img.compile, ['copy-img']);
+  gulp.watch(paths.vendor.compile, ['flatten-fonts', 'copy-vendor']);
 
   console.log("Watching files!");
 });
@@ -108,10 +130,10 @@ gulp.task('copy-custom-vendor', () => {
 });
 
 gulp.task('useref', () => {
-  let cssTasks = lazypipe()
+  const cssTasks = lazypipe()
     .pipe(cssnano, { discardComments: {removeAll: true} });
 
-  let jsTasks = lazypipe()
+  const jsTasks = lazypipe()
     .pipe(uglify);
 
   return gulp.src('./build/**/*.html')
